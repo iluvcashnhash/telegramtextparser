@@ -15,8 +15,11 @@ async def main():
         # Get all messages from channel
         messages = []
         async for message in client.iter_messages(channel, reverse=True):
+            # Extract the publication date of the message in "YYYY-MM-DD HH:MM:SS" format
+            date_str = message.date.strftime("%Y-%m-%d %H:%M:%S") if message.date else "unknown date"
             text = message.text or ''
-            messages.append(text)
+            # Prepend the date to the actual post text
+            messages.append(f"{date_str} - {text}")
 
         # Save messages to Word document
         doc = Document()
